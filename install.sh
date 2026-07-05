@@ -48,6 +48,20 @@ link_config() {
   info "Linked $target -> $source"
 }
 
+install_brew_packages() {
+  if ! need_command brew; then
+    warn "Install Homebrew to automatically install fonts"
+    return
+  fi
+
+  if brew list --cask font-iosevka-nerd-font >/dev/null 2>&1; then
+    info "Iosevka Nerd Font is already installed"
+  else
+    info "Installing Iosevka Nerd Font"
+    HOMEBREW_NO_AUTO_UPDATE=1 brew install --cask font-iosevka-nerd-font
+  fi
+}
+
 install_nvim_plugins() {
   if ! need_command nvim; then
     warn "Install Neovim, then run this script again"
@@ -70,6 +84,7 @@ main() {
 
   link_config "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
   link_config "$DOTFILES_DIR/config/wezterm" "$HOME/.config/wezterm"
+  install_brew_packages
   install_nvim_plugins
 
   info "Done"

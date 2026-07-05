@@ -58,3 +58,9 @@ The WezTerm config includes:
 - 90% window opacity with macOS blur
 - Hidden tab bar
 - `Alt+Enter` fullscreen toggle
+
+The installer uses Homebrew to install the matching font cask:
+
+```sh
+brew install --cask font-iosevka-nerd-font
+```
