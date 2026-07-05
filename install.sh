@@ -48,11 +48,26 @@ link_config() {
   info "Linked $target -> $source"
 }
 
+install_brew_formula() {
+  local formula="$1"
+
+  if brew list --formula "$formula" >/dev/null 2>&1; then
+    info "$formula is already installed"
+  else
+    info "Installing $formula"
+    HOMEBREW_NO_AUTO_UPDATE=1 brew install "$formula"
+  fi
+}
+
 install_brew_packages() {
   if ! need_command brew; then
-    warn "Install Homebrew to automatically install fonts"
+    warn "Install Homebrew to automatically install terminal tools and fonts"
     return
   fi
+
+  install_brew_formula tmux
+  install_brew_formula ripgrep
+  install_brew_formula fd
 
   if brew list --cask font-iosevka-nerd-font >/dev/null 2>&1; then
     info "Iosevka Nerd Font is already installed"
@@ -84,6 +99,7 @@ main() {
 
   link_config "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
   link_config "$DOTFILES_DIR/config/wezterm" "$HOME/.config/wezterm"
+  link_config "$DOTFILES_DIR/config/tmux/tmux.conf" "$HOME/.tmux.conf"
   install_brew_packages
   install_nvim_plugins
 

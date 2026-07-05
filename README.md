@@ -14,6 +14,7 @@ The installer symlinks:
 
 - `config/nvim` -> `~/.config/nvim`
 - `config/wezterm` -> `~/.config/wezterm`
+- `config/tmux/tmux.conf` -> `~/.tmux.conf`
 
 If a real file or directory already exists at the target path, it is moved to
 `~/.dotfiles-backup/<timestamp>/` before the symlink is created.
@@ -25,6 +26,7 @@ The Neovim config includes:
 - Lazy.nvim plugin manager
 - Oxocarbon theme
 - Treesitter
+- Telescope backed by `ripgrep` and `fd`
 - LSP for JavaScript, TypeScript, Rust, Go, and Lua
 - Completion with `nvim-cmp` and LuaSnip
 - Debugging with `nvim-dap`, DAP UI, Go, Rust, and JS/TS adapters
@@ -64,3 +66,19 @@ The installer uses Homebrew to install the matching font cask:
 ```sh
 brew install --cask font-iosevka-nerd-font
 ```
+
+## Terminal Flow
+
+WezTerm starts or attaches to a tmux session named `main`:
+
+```sh
+tmux new-session -A -s main
+```
+
+tmux owns terminal windows and panes. Neovim owns editing.
+
+The installer uses Homebrew to install:
+
+- `tmux`
+- `ripgrep`
+- `fd`

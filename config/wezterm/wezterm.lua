@@ -39,6 +39,7 @@ config.text_background_opacity = 1.0
 config.macos_window_background_blur = 30
 
 config.enable_tab_bar = false
+config.default_prog = { "/bin/zsh", "-lc", "tmux new-session -A -s main" }
 
 config.window_padding = {
   left = 8,
