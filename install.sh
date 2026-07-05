@@ -19,6 +19,10 @@ need_command() {
   fi
 }
 
+run_nvim() {
+  nvim --headless "$@" +qa < /dev/null
+}
+
 backup_target() {
   local target="$1"
 
@@ -51,15 +55,14 @@ install_nvim_plugins() {
   fi
 
   info "Syncing Neovim plugins"
-  nvim --headless "+Lazy! sync" +qa
+  run_nvim "+Lazy! sync"
 
   info "Installing Mason tools"
-  nvim --headless "+MasonInstall gopls rust-analyzer lua-language-server typescript-language-server codelldb delve js-debug-adapter" +qa
+  run_nvim "+MasonInstall gopls rust-analyzer lua-language-server typescript-language-server codelldb delve js-debug-adapter tree-sitter-cli"
 
   info "Installing Treesitter parsers"
-  nvim --headless "+lua require('lazy').load({plugins={'nvim-treesitter'}})" \
-    "+TSInstallSync javascript typescript tsx rust go gomod gosum lua json yaml toml bash html css markdown markdown_inline vim vimdoc" \
-    +qa
+  run_nvim "+lua require('lazy').load({plugins={'nvim-treesitter'}})" \
+    "+TSInstallSync! javascript typescript tsx rust go gomod gosum lua json yaml toml bash html css markdown markdown_inline vim vimdoc"
 }
 
 main() {
